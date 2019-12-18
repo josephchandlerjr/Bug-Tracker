@@ -36,6 +36,16 @@ const userSchema = mongoose.Schema({
 	}
 });
 
+// middleware
+userSchema.pre('save', function(next){ // must use normal function def to get this binding
+	const user = this;
+	if(user.isModified('password')){
+		console.log('password was modified');
+	}
+	next();
+});
+
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
