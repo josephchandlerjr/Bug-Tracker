@@ -1,0 +1,23 @@
+{
+  "name": "bug-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js -e js,ejs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephchandlerjr/Bug-Tracker.git"
+  },
+  "author": "Joseph Chandler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josephchandlerjr/Bug-Tracker/issues"
+  },
+  "homepage": "https://github.com/josephchandlerjr/Bug-Tracker#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
