@@ -42,7 +42,6 @@ router.post('/bugs', async (req, res) => {
 router.patch('/bugs/:id', async (req, res) => {
 	const allowedUpdates = ['description', 'resolved'];
 	const updates = Object.keys(req.body);
-	console.log(updates);
 	const isValidOperation = updates.every( (prop) => allowedUpdates.includes(prop));
 	if(!isValidOperation) return res.status(400).send('Invalid updates')
 	try {
