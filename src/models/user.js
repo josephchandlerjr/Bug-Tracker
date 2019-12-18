@@ -1,8 +1,10 @@
 const mongoose 		= require('mongoose'),
-	  validator 	= require('validator');	
+	  validator 	= require('validator'),
+	  bcrypt		= require('bcryptjs');
 
 
-const userSchema = mongoose.Schema({
+
+const userSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
@@ -37,10 +39,10 @@ const userSchema = mongoose.Schema({
 });
 
 // middleware
-userSchema.pre('save', function(next){ // must use normal function def to get this binding
+userSchema.pre('save', async function(next){ // must use normal function def to get this binding
 	const user = this;
 	if(user.isModified('password')){
-		console.log('password was modified');
+		user.password = await bcrypt.hash(user.password, 8);
 	}
 	next();
 });
