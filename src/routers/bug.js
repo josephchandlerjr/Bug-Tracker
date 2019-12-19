@@ -45,9 +45,13 @@ router.patch('/bugs/:id', async (req, res) => {
 	const isValidOperation = updates.every( (prop) => allowedUpdates.includes(prop));
 	if(!isValidOperation) return res.status(400).send('Invalid updates')
 	try {
-		const bug = await Bug.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+		const bug = await Bug.findById(req.params.id);
 		if (!bug) return res.status(404).send();
-		res.send(bug);
+		for(let update of updates) {
+			bug[update] = req.body[update];
+		}
+		const newBug = await bug.save();
+		res.send(newBug);
 	} catch (e) {
 		res.status(400).send(e);
 	}

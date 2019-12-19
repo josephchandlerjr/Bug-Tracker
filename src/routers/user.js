@@ -51,8 +51,8 @@ router.patch('/users/:id', async (req, res) => {
 		for (let update of updates) {
 			user[update] = req.body[update];
 		}
-		user.save();
-		res.send(user);
+		const newUser = await user.save();
+		res.send(newUser);
 	} catch (e) {
 		res.status(400).send(e);
 	}
