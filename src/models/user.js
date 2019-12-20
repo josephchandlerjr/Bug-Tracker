@@ -1,6 +1,7 @@
 const mongoose 		= require('mongoose'),
 	  validator 	= require('validator'),
-	  bcrypt		= require('bcryptjs');
+	  bcrypt		= require('bcryptjs'),
+	  jwt			= require('jsonwebtoken');
 
 
 
@@ -36,7 +37,13 @@ const userSchema = new mongoose.Schema({
 			if (validator.contains(value.toLowerCase(), 'password')) throw new Error("'password'? really?!");
 		},
 		trim: true
-	}
+	},
+	tokens: [{
+		token: {
+			type: String,
+			required: true
+		}
+	}]
 });
 
 // hash password prior to save
@@ -48,6 +55,9 @@ userSchema.pre('save', async function(next){ // must use normal function def to 
 	next();
 });
 
+
+
+// compare password with hashed password stored in db
 userSchema.statics.findByCredentials = async (email, password) => {
 	const user = await User.findOne({ email });
 	if (!user){
@@ -59,6 +69,8 @@ userSchema.statics.findByCredentials = async (email, password) => {
 	}
 	return user;
 };
+
+
 
 
 const User = mongoose.model('User', userSchema);
