@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
 	}
 });
 
-// middleware
+// hash password prior to save
 userSchema.pre('save', async function(next){ // must use normal function def to get this binding
 	const user = this;
 	if(user.isModified('password')){
@@ -47,6 +47,18 @@ userSchema.pre('save', async function(next){ // must use normal function def to 
 	}
 	next();
 });
+
+userSchema.statics.findByCredentials = async (email, password) => {
+	const user = await User.findOne({ user });
+	if (!user){
+		throw new Error('Unable to login');
+	}
+	const isMatch = await bcrypt.compare(password, user.password);
+	if(!isMatch) {
+		throw new Error('Unable to login');
+	}
+	return user;
+};
 
 
 const User = mongoose.model('User', userSchema);
