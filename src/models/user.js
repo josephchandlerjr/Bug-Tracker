@@ -49,7 +49,7 @@ userSchema.pre('save', async function(next){ // must use normal function def to 
 });
 
 userSchema.statics.findByCredentials = async (email, password) => {
-	const user = await User.findOne({ user });
+	const user = await User.findOne({ email });
 	if (!user){
 		throw new Error('Unable to login');
 	}
