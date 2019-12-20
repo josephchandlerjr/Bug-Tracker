@@ -55,6 +55,14 @@ userSchema.pre('save', async function(next){ // must use normal function def to 
 	next();
 });
 
+userSchema.methods.generateAuthToken = async function() {
+	const user = this;
+	const token  = await jwt.sign({_id: user._id.toString()}, 'supersecretsecret');
+	user.tokens = user.tokens.concat({token});
+	await user.save();
+	return token;
+};
+
 
 
 // compare password with hashed password stored in db
