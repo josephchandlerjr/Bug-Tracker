@@ -1,12 +1,14 @@
 const express 	= require('express'),
-	  User 		= require('../models/user');
+	  User 		= require('../models/user'),
+	  auth 		= require('../middleware/auth');
 
 const router = new express.Router();
 
 //INDEX
 
-router.get('/users', async (req, res) => {
+router.get('/users', auth, async (req, res) => {
 	try {
+		console.log('user is:', req.user);
 		const allUsers = await User.find({});
 		res.status(200).send(allUsers);
 	} catch (e) {
