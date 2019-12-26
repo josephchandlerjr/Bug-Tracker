@@ -56,6 +56,16 @@ router.post('/users/login', async (req, res) => {
 	}
 });
 
+//LOGOUT
+router.post('/users/logout', auth, async (req, res) => {
+	try {
+		res.send({user, token});
+	} catch (e){
+		res.status(400).send();
+	}
+});
+
+
 //UPDATE
 router.patch('/users/:id', auth, async (req, res) => {
 	const allowedUpdates = ['name', 'email', 'password', 'age'];
