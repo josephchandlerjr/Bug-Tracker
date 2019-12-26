@@ -1,12 +1,14 @@
 const express 	= require('express'),
- 	  Bug 		= require('../models/bug');
+ 	  Bug 		= require('../models/bug')
+  	  auth 		= require('../middleware/auth');
+
 
 
 const router = new express.Router();
 
 
 //INDEX
-router.get('/bugs', async (req, res) => {
+router.get('/bugs', auth, async (req, res) => {
 	try {
 		const allTasks = await Bug.find({});
 		res.status(200).send(allTasks);
@@ -16,7 +18,7 @@ router.get('/bugs', async (req, res) => {
 });
 
 //SHOW
-router.get('/bugs/:id', async (req, res) => {
+router.get('/bugs/:id', auth, async (req, res) => {
 	try {
 		const bug = await Bug.findById(req.params.id);
 		if(!bug) return res.status(404).send(bug);
@@ -28,7 +30,7 @@ router.get('/bugs/:id', async (req, res) => {
 });
 
 //CREATE
-router.post('/bugs', async (req, res) => {
+router.post('/bugs', auth, async (req, res) => {
 	const bug = new Bug(req.body);
 	try {
 		await bug.save();
@@ -39,7 +41,7 @@ router.post('/bugs', async (req, res) => {
 });
 
 //UPDATE
-router.patch('/bugs/:id', async (req, res) => {
+router.patch('/bugs/:id', auth, async (req, res) => {
 	const allowedUpdates = ['description', 'resolved'];
 	const updates = Object.keys(req.body);
 	const isValidOperation = updates.every( (prop) => allowedUpdates.includes(prop));
@@ -58,7 +60,7 @@ router.patch('/bugs/:id', async (req, res) => {
 });
 
 //DELETE
-router.delete('/bugs/:id', async (req, res) => {
+router.delete('/bugs/:id', auth, async (req, res) => {
 	try {
 		const bug = await Bug.findByIdAndDelete(req.params.id);
 		if (!bug) return res.status(404).send();
