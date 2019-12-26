@@ -8,13 +8,17 @@ const router = new express.Router();
 
 router.get('/users', auth, async (req, res) => {
 	try {
-		console.log('user is:', req.user);
 		const allUsers = await User.find({});
 		res.status(200).send(allUsers);
 	} catch (e) {
 		res.status(500).send(e);
 	}
 	
+});
+
+//ME
+router.get('/users/me', auth, async (req, res) => {
+	res.send(req.user);
 });
 
 //SHOW
