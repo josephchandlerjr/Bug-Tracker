@@ -59,9 +59,22 @@ router.post('/users/login', async (req, res) => {
 //LOGOUT
 router.post('/users/logout', auth, async (req, res) => {
 	try {
-		res.send({user, token});
+		req.user.tokens = req.user.tokens.filter( token => token.token !== req.token); //remember tokens is array of objects, each with a token propery
+		await req.user.save();
+		res.send();  //default status is 200;
 	} catch (e){
-		res.status(400).send();
+		res.status(500).send();
+	}
+});
+
+//LOGOUT ALL
+router.post('/users/logoutall', auth, async (req, res) => {
+	try {
+		req.user.tokens = []; //remember tokens is array of objects, each with a token propery
+		await req.user.save();
+		res.send();  //default status is 200;
+	} catch (e){
+		res.status(500).send();
 	}
 });
 
