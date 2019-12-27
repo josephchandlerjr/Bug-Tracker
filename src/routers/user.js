@@ -80,6 +80,23 @@ router.post('/users/logoutall', auth, async (req, res) => {
 
 
 //UPDATE
+//update authenticated user
+router.patch('/users/me', auth, async (req, res) => {
+	const allowedUpdates = ['name', 'email', 'password', 'age'];
+	const updates = Object.keys(req.body);
+	const isValidOperation = updates.every( (prop) => allowedUpdates.includes(prop));
+	if(!isValidOperation) return res.status(400).send({ error: 'Invalid Updates'});
+	try {
+		for (let update of updates) {
+			req.user[update] = req.body[update];
+		}
+		const newUser = await req.user.save();
+		res.send(newUser);
+	} catch (e) {
+		res.status(400).send(e);
+	}
+});
+//update any user
 router.patch('/users/:id', auth, async (req, res) => {
 	const allowedUpdates = ['name', 'email', 'password', 'age'];
 	const updates = Object.keys(req.body);
