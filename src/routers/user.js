@@ -99,6 +99,16 @@ router.patch('/users/:id', auth, async (req, res) => {
 });
 
 //DELETE
+//delete authenticate user
+router.delete('/users/me', auth, async (req, res) => {
+	try {
+		await req.user.delete();
+		res.send(req.user);
+	} catch (e) {
+		res.status(500).send(e);
+	}
+});
+//delete any user
 router.delete('/users/:id', auth, async (req, res) => {
 	try {
 		const user = await User.findByIdAndDelete(req.params.id);
@@ -108,5 +118,7 @@ router.delete('/users/:id', auth, async (req, res) => {
 		res.status(400).send(e);
 	}
 });
+
+
 
 module.exports = router;
