@@ -22,6 +22,10 @@ const Bug = mongoose.model('Bug', {
 	resolved: {
 		type: Boolean,
 		default: false
+	},
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true
 	}
 });
 
