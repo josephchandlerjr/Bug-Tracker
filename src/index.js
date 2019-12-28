@@ -20,3 +20,8 @@ app.use(bugRouter);
 
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));	
+
+const Bug = require('./models/bug');
+const User = require('./models/user');
+
+console.log(Bug, User);

@@ -26,7 +26,7 @@ const Bug = mongoose.model('Bug', {
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
-		ref: 'User';
+		ref: 'User'
 	}
 });
 

@@ -31,7 +31,10 @@ router.get('/bugs/:id', auth, async (req, res) => {
 
 //CREATE
 router.post('/bugs', auth, async (req, res) => {
-	const bug = new Bug(req.body);
+	const bug = new Bug({
+		...req.body,
+		owner: req.user
+	});
 	try {
 		await bug.save();
 		res.status(201).send(bug);
