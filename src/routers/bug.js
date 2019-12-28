@@ -33,7 +33,7 @@ router.get('/bugs/:id', auth, async (req, res) => {
 router.post('/bugs', auth, async (req, res) => {
 	const bug = new Bug({
 		...req.body,
-		owner: req.user
+		owner: req.user._id
 	});
 	try {
 		await bug.save();

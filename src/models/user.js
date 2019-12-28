@@ -46,6 +46,12 @@ const userSchema = new mongoose.Schema({
 	}]
 });
 
+userSchema.virtual('bugs', {
+	ref: 'Bug',
+	localField: '_id',
+	foreignField: 'owner'
+});
+
 // hash password prior to save
 userSchema.pre('save', async function(next){ // must use normal function def to get this binding
 	const user = this;
