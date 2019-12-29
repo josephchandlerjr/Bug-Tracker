@@ -68,7 +68,10 @@ router.patch('/bugs/:id', auth, async (req, res) => {
 //DELETE
 router.delete('/bugs/:id', auth, async (req, res) => {
 	try {
-		const bug = await Bug.findByIdAndDelete(req.params.id);
+		const bug = await Bug.findOneAndDelete({
+			_id: req.params.id,
+			owner: req.user._id
+		});
 		if (!bug) return res.status(404).send();
 		res.send(bug);
 	} catch (e) {
