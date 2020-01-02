@@ -1,5 +1,5 @@
 const express 	= require('express'),
- 	  Bug 		= require('../models/bug')
+ 	  Bug 		= require('../models/bug'),
   	  auth 		= require('../middleware/auth');
 
 
