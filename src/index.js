@@ -3,6 +3,7 @@ const express 		= require('express'),
 	  mongoose		= require('mongoose'),
 	  userRouter 	= require('./routers/user'),
 	  bugRouter		= require('./routers/bug'),
+	  commentRouter = require('./routers/comment'),
 	  port			= process.env.PORT || 3000;
 
 
@@ -16,6 +17,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/bug-tracker', {
 app.use(express.json()); //parse body as json and provide via req.body
 app.use(userRouter);
 app.use(bugRouter);
+app.use(commentRouter);
 
 
 

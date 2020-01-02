@@ -8,7 +8,7 @@ const router = new express.Router();
 
 
 //INDEX
-router.get('/comments', auth, async (req, res) => {
+router.get('/bugs/:id/comments/', auth, async (req, res) => {
 	try {
 		const allTasks = await Comment.find({});
 		res.status(200).send(allTasks);
@@ -18,7 +18,12 @@ router.get('/comments', auth, async (req, res) => {
 });
 
 //SHOW
-router.get('/comments/:commentId', auth, async (req, res) => {
+router.get('/bugs/:id/comments/:commentId', auth, async (req, res) => {
+	console.log({ 
+			_id: req.params.commentId,
+			bug: req.params.id,
+			owner: req.user._id
+		})
 	try {
 		const comment = await Comment.findOne({ 
 			_id: req.params.commentId,
@@ -34,7 +39,7 @@ router.get('/comments/:commentId', auth, async (req, res) => {
 });
 
 //CREATE
-router.post('/comments', auth, async (req, res) => {
+router.post('/bugs/:id/comments', auth, async (req, res) => {
 	const comment = new Comment({
 		...req.body,
 		bug: req.params.id,
@@ -49,7 +54,8 @@ router.post('/comments', auth, async (req, res) => {
 });
 
 //UPDATE
-router.patch('/comments/:commentId', auth, async (req, res) => {
+router.patch('/bugs/:id/comments/:commentId', auth, async (req, res) => {
+	console.log('here')
 	const allowedUpdates = ['text'];
 	const updates = Object.keys(req.body);
 	const isValidOperation = updates.every( (prop) => allowedUpdates.includes(prop));
@@ -72,7 +78,7 @@ router.patch('/comments/:commentId', auth, async (req, res) => {
 });
 
 //DELETE
-router.delete('/comments/:commentId', auth, async (req, res) => {
+router.delete('/bugs/:id/comments/:commentId', auth, async (req, res) => {
 	try {
 		const comment = await Comment.findOneAndDelete({
 			_id: req.params.commentId,
