@@ -1,7 +1,7 @@
 const mongoose 		= require('mongoose'),
 	  validator 	= require('validator');	
 
-const Comment = mongoose.model('Comment', {
+const commentSchema = new mongoose.Schema({
 	text: {
 		type: String,
 		trim: true,
@@ -18,6 +18,10 @@ const Comment = mongoose.model('Comment', {
 		ref: 'Bug'
 	}
 
+}, {
+	timestamps: true
 });
+
+const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = Comment;

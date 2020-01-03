@@ -1,7 +1,7 @@
 const mongoose 		= require('mongoose'),
 	  validator 	= require('validator');	
 
-const Bug = mongoose.model('Bug', {
+const bugSchema = new mongoose.Schema({
 	description: {
 		type: String,
 		trim: true,
@@ -28,6 +28,10 @@ const Bug = mongoose.model('Bug', {
 		required: true,
 		ref: 'User'
 	}
+}, {
+	timestamps: true
 });
+
+const Bug = mongoose.model('Bug', bugSchema);
 
 module.exports = Bug;
