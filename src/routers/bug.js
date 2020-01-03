@@ -8,9 +8,31 @@ const router = new express.Router();
 
 
 //INDEX
+// GET /bugs?resolved=true
+// GET /bugs?skip=0
+// GET /bugs?limit=10
+// GET /bugs?sortBy=completed:desc
 router.get('/bugs', auth, async (req, res) => {
+	const match = {}
+	const sort = {}
+
+	if(req.query.resolved) {
+		match.resolved = resolved;
+	}
+
+	if(req.query.sortBy){
+		const sortBy = req.query.sortBy.split(":");
+		sort[sortBy[0]] = sortBy[1] === 'desc' ? -1 : 1;
+	}
+	
+
+	const limit = parseInt(req.query.limit);
+	const skip = parseInt(req.query.skip);
+
+
+	
 	try {
-		const allTasks = await Bug.find({});
+		const allTasks = await Bug.find(match).limit(limit).skip(skip).sort(sort);
 		res.status(200).send(allTasks);
 	} catch (e) {
 		res.status(500).send(e);
