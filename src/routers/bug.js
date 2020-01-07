@@ -113,7 +113,7 @@ router.delete('/bugs/:id', auth, async (req, res) => {
 });
 
 //UPLOAD file 
-router.post('/bugs/:id/upload', auth, upload.single('file'), (req, res) => {
+router.post('/bugs/:id/upload', auth, upload.single('file'), asyc (req, res) => {
 	res.send();
 }, (error, req, res, next) => {
 	res.status(400).send({ error: error.message})

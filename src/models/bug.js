@@ -31,6 +31,10 @@ const bugSchema = new mongoose.Schema({
 	files: [{
 		file: {
 			type: Buffer
+		},
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
 		}
 	}]
 }, {
