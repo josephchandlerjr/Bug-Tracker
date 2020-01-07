@@ -113,7 +113,15 @@ router.delete('/bugs/:id', auth, async (req, res) => {
 });
 
 //UPLOAD file 
-router.post('/bugs/:id/upload', auth, upload.single('file'), asyc (req, res) => {
+router.post('/bugs/:id/upload', auth, upload.single('file'), async (req, res) => {
+	const bug = await Bug.findById(req.params.id);
+	console.log(bug);
+	bug.files = bug.files.concat( {
+		file: req.file.buffer,
+		owner: req.user._id
+	})
+	await bug.save();
+	console.log(bug);
 	res.send();
 }, (error, req, res, next) => {
 	res.status(400).send({ error: error.message})
