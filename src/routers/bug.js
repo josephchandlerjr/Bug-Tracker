@@ -8,11 +8,11 @@ const router = new express.Router();
 const upload = multer({
 	dest: 'files',
 	limits: {
-		fileSize: 5000000
+		fileSize: 1000000
 	},
 	fileFilter: (req, file, cb) => {
-		if(!file.originalname.match()) {
-			cb(new Error('Please upload and image file (.jpg, .jpg, or .png)'));
+		if(!file.originalname.match(/\.(jpg|jpeg|png|doc|docx)$/)) {
+			cb(new Error('Please upload an image or Word file (jpg, jpeg, png, doc, or docx)'));
 		}
 		cb(undefined, true);
 	}
@@ -111,6 +111,11 @@ router.delete('/bugs/:id', auth, async (req, res) => {
 	} catch (e) {
 		res.status(400).send(e);
 	}
+});
+
+//UPLOAD file 
+router.post('/bugs/:id/upload', auth, upload.single('file'), (req, res) => {
+	res.send();
 });
 
 module.exports = router;
