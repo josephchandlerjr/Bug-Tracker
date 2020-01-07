@@ -6,7 +6,6 @@ const express 	= require('express'),
 const router = new express.Router();
 
 const upload = multer({
-	dest: 'files',
 	limits: {
 		fileSize: 5000000
 	},
