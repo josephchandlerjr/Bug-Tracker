@@ -1,10 +1,22 @@
 const express 	= require('express'),
  	  Bug 		= require('../models/bug'),
-  	  auth 		= require('../middleware/auth');
-
-
+  	  auth 		= require('../middleware/auth'),
+  	  multer	= require('multer');
 
 const router = new express.Router();
+
+const upload = multer({
+	dest: 'files',
+	limits: {
+		fileSize: 5000000
+	},
+	fileFilter: (req, file, cb) => {
+		if(!file.originalname.match()) {
+			cb(new Error('Please upload and image file (.jpg, .jpg, or .png)'));
+		}
+		cb(undefined, true);
+	}
+});
 
 
 //INDEX
