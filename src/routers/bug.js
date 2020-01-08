@@ -127,6 +127,19 @@ router.post('/bugs/:id/file', auth, upload.single('file'), async (req, res) => {
 	res.status(400).send({ error: error.message})
 });
 
+//INDEX file
+router.get('/bugs/:id/file/:fileId', async (req, res) => {
+	try{
+		const bug = await Bug.findById(req.params.id);
+		const file = bug.files.find( file => file._id == req.params.fileId);
+		res.set('Content-Type', file.contentType);
+		res.send(file.file);
+
+	} catch (e){
+		res.status(404).send();
+	}
+});
+
 //DELETE file 
 router.delete('/bugs/:id/file/:fileId', auth, upload.single('file'), async (req, res) => {
 	const bug = await Bug.findById(req.params.id);
