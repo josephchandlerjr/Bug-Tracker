@@ -1,7 +1,8 @@
 const express 	= require('express'),
  	  Bug 		= require('../models/bug'),
   	  auth 		= require('../middleware/auth'),
-  	  multer	= require('multer');
+  	  multer	= require('multer'),
+  	  mime		= require('mime-types');
 
 const router = new express.Router();
 
@@ -117,6 +118,7 @@ router.post('/bugs/:id/file', auth, upload.single('file'), async (req, res) => {
 	const bug = await Bug.findById(req.params.id);
 	bug.files = bug.files.concat( {
 		file: req.file.buffer,
+		type: mime.lookup(req.file.originalname),
 		owner: req.user._id
 	})
 	await bug.save();
