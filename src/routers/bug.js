@@ -118,7 +118,7 @@ router.post('/bugs/:id/file', auth, upload.single('file'), async (req, res) => {
 	const bug = await Bug.findById(req.params.id);
 	bug.files = bug.files.concat( {
 		file: req.file.buffer,
-		type: mime.lookup(req.file.originalname),
+		contentType: mime.lookup(req.file.originalname),
 		owner: req.user._id
 	})
 	await bug.save();
