@@ -19,7 +19,7 @@ const upload = multer({
 });
 
 
-//INDEX
+//INDEX bugs
 // GET /bugs?resolved=true
 // GET /bugs?skip=0
 // GET /bugs?limit=10
@@ -51,7 +51,7 @@ router.get('/bugs', auth, async (req, res) => {
 	}
 });
 
-//SHOW
+//SHOW a particular bug
 router.get('/bugs/:id', auth, async (req, res) => {
 	try {
 		const bug = await Bug.findById(req.params.id);
@@ -77,7 +77,7 @@ router.post('/bugs', auth, async (req, res) => {
 	}
 });
 
-//UPDATE
+//UPDATE bug owned by authenticated user
 router.patch('/bugs/:id', auth, async (req, res) => {
 	const allowedUpdates = ['description', 'resolved', 'workaround', 'severity'];
 	const updates = Object.keys(req.body);
@@ -99,7 +99,7 @@ router.patch('/bugs/:id', auth, async (req, res) => {
 	}
 });
 
-//DELETE
+//DELETE bug but only if owned by authenticated user
 router.delete('/bugs/:id', auth, async (req, res) => {
 	try {
 		const bug = await Bug.findOneAndDelete({

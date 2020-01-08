@@ -63,6 +63,7 @@ userSchema.pre('save', async function(next){ // must use normal function def to 
 	next();
 });
 
+//creates jwt token and adds toke to tokens propert of authenticated user
 userSchema.methods.generateAuthToken = async function() {
 	const user = this;
 	const token  = await jwt.sign({_id: user._id.toString()}, 'supersecretsecret');
@@ -71,6 +72,7 @@ userSchema.methods.generateAuthToken = async function() {
 	return token;
 };
 
+//toJSON is always invoked by JSON.stingify. This will hide private data
 userSchema.methods.toJSON = function() {
 	const user = this;
 	const userObject = user.toObject();
